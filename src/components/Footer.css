@@ -1,0 +1,17 @@
+/* Basic styling for the Footer section */
+.footer {
+  padding: 20px;
+  background-color: #222; /* Dark background for contrast */
+  color: #fff;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}

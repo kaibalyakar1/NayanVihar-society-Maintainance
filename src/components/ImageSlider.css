@@ -1,0 +1,64 @@
+/* Container for the slider */
+.slider-container {
+  position: relative;
+  max-width: 100%;
+  margin: 0 auto;
+  overflow: hidden; /* Hide overflow */
+}
+
+/* Slider styling */
+.slider {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* Slide styling */
+.slides {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+  min-width: 100%;
+  box-sizing: border-box;
+}
+
+.slide img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Navigation buttons styling */
+.prev,
+.next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 24px;
+  z-index: 100;
+}
+
+.prev {
+  left: 10px;
+}
+
+.next {
+  right: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .prev,
+  .next {
+    padding: 5px;
+    font-size: 18px;
+  }
+}
