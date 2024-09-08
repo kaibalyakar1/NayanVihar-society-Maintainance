@@ -4,18 +4,20 @@
   background-color: #f4f4f4; /* Light background for contrast */
 }
 
+/* Container for the section */
 .container {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  max-width: 1200px;
+  justify-content: space-between; /* Align items to the edges */
+  align-items: flex-start; /* Align items to the start vertically */
+  max-width: 100%;
+
   margin: 0 auto;
 }
 
 /* Text content alignment */
 .text-content {
   flex: 1;
-  padding-right: 20px;
+  margin-right: 40px; /* Add space between text and image */
 }
 
 /* Heading style */
@@ -34,6 +36,7 @@
   color: #555;
   line-height: 1.6;
   margin-bottom: 20px;
+  text-align: left; /* Align text to the left */
 }
 
 /* Image content alignment */
@@ -44,8 +47,9 @@
   align-items: center;
 }
 
+/* Image styling */
 .image-content img {
-  max-width: 100%;
+  max-width: 90%;
   height: auto;
   border-radius: 8px; /* Rounded corners for the image */
 }
@@ -58,11 +62,11 @@
   }
 
   .text-content {
-    padding-right: 0;
+    margin-right: 0; /* Remove margin for mobile */
     margin-bottom: 20px;
   }
 
   .image-content {
-    order: -1; /* Place image above text on mobile */
+    margin-top: 20px; /* Add margin-top to separate image from text */
   }
 }

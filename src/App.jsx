@@ -8,6 +8,7 @@ import About from "./components/AboutSection.jsx";
 import BuilderInfo from "./components/BuilderInfo.jsx";
 import Map from "./components/MapSection.jsx";
 import Footer from "./components/Footer.jsx";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -15,11 +16,22 @@ function App() {
   return (
     <>
       <Navbar />
-      <About />
-      <ImageSlider />
-      <BuilderInfo />
-      <Map />
-      <Footer />
+
+      <section id="about">
+        <About />
+      </section>
+      <section id="moments">
+        <ImageSlider />
+      </section>
+      <section id="info">
+        <BuilderInfo />
+      </section>
+      <section id="address">
+        <Map />
+      </section>
+      <section id="contact">
+        <Footer />
+      </section>
     </>
   );
 }
