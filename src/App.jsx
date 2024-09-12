@@ -1,38 +1,19 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-
-import Navbar from "./components/Navbar";
-import ImageSlider from "./components/ImageSlider";
-import About from "./components/AboutSection.jsx";
-import BuilderInfo from "./components/BuilderInfo.jsx";
-import Map from "./components/MapSection.jsx";
-import Footer from "./components/Footer.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import HomePage from "./components/HomePage"; // Ensure this is defined
+import LoginSignup from "./components/Auth/LoginSignup";
+// Import other components if needed
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
+    <Router>
       <Navbar />
-
-      <section id="about">
-        <About />
-      </section>
-      <section id="moments">
-        <ImageSlider />
-      </section>
-      <section id="info">
-        <BuilderInfo />
-      </section>
-      <section id="address">
-        <Map />
-      </section>
-      <section id="contact">
-        <Footer />
-      </section>
-    </>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login-signup" element={<LoginSignup />} />
+        {/* Add other routes here */}
+      </Routes>
+    </Router>
   );
 }
 

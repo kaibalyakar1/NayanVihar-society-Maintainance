@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { FaUserAlt } from "react-icons/fa";
 import "./Navbar.css";
 
 const Navbar = () => {
@@ -22,16 +24,24 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="container">
-        <h1 className="logo" onClick={() => scrollToSection("about")}>
+        <Link to="/" className="logo">
           Nayan Vihar
-        </h1>
-        <div className={`nav-links ${isOpen ? "open" : ""}`}>
-          <li onClick={() => scrollToSection("about")}>About Us</li>
+        </Link>
+        <ul className={`nav-links ${isOpen ? "open" : ""}`}>
+          <Link to="/">
+            <li onClick={() => scrollToSection("about")}>About Us</li>
+          </Link>
           <li onClick={() => scrollToSection("moments")}>Moments</li>
           <li onClick={() => scrollToSection("info")}>Info</li>
           <li onClick={() => scrollToSection("address")}>Address</li>
           <li onClick={() => scrollToSection("contact")}>Contact</li>
-        </div>
+          <li>
+            <Link to="/login-signup" className="btn-login-signup">
+              <FaUserAlt style={{ marginRight: "8px" }} />
+              Login/Signup
+            </Link>
+          </li>
+        </ul>
         <div
           className={`hamburger ${isOpen ? "open" : ""}`}
           onClick={toggleMenu}
