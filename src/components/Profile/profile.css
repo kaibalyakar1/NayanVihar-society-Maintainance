@@ -1,0 +1,70 @@
+.profile-container {
+  background-color: #f0f0f0; /* Set a distinct background color */
+  padding: 20px;
+}
+
+.profile-details {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.profile-info {
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.user-info p {
+  margin: 10px 0;
+}
+
+.edit-form input {
+  display: block;
+  margin: 10px 0;
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.edit-form button {
+  margin: 10px 5px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.edit-form button:hover {
+  opacity: 0.9;
+}
+
+.user-info button {
+  margin: 10px 5px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.user-info button:hover {
+  opacity: 0.9;
+}
+
+.user-info button:first-child {
+  background-color: #007bff;
+  color: white;
+}
+
+.user-info button:last-child {
+  background-color: #dc3545;
+  color: white;
+}

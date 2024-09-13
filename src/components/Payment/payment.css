@@ -1,0 +1,76 @@
+/* Ensure the form looks centered and has good spacing */
+form {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+/* Style each form input */
+div {
+  margin-bottom: 15px;
+}
+
+/* Style labels to be more readable */
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+/* Style the input fields for better aesthetics */
+input[type="number"],
+input[type="text"],
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Specific styling for the phone number container */
+.phone-number-container {
+  display: flex;
+  align-items: center;
+}
+
+/* Style the prefix to blend well with the input */
+.phone-prefix {
+  background-color: #ddd;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px 0 0 4px;
+  margin-right: -1px; /* Overlap with input field border */
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* Style the phone number input to align with the prefix */
+.phone-number-input {
+  border: 1px solid #ccc;
+  border-radius: 0 4px 4px 0;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Style the submit button */
+button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+}
+
+/* Button hover effect */
+button:hover {
+  background-color: #0056b3;
+}

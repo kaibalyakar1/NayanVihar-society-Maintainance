@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import "./auth.css";
-
+import { useNavigate } from "react-router-dom";
 const LoginSignup = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [otpSent, setOtpSent] = useState(false);
@@ -17,7 +17,7 @@ const LoginSignup = () => {
     password: "",
     otp: "",
   });
-
+  const navigate = useNavigate();
   const toggleForm = () => {
     setIsLogin(!isLogin);
     resetFormState();
@@ -159,6 +159,9 @@ const LoginSignup = () => {
           icon: "success",
           title: "Login Successful",
           text: "You have successfully logged in.",
+        }).then(() => {
+          localStorage.setItem("token", response.data.token);
+          navigate("/profile");
         });
       } catch (error) {
         Swal.fire({
