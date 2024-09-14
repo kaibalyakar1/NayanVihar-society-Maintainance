@@ -167,6 +167,7 @@ const LoginSignup = () => {
     }
   };
 
+  // In LoginSignup component
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -184,41 +185,27 @@ const LoginSignup = () => {
             confirmButton: "swal-button", // Custom class for button
           },
         }).then(() => {
-          localStorage.setItem("token", response.data.token);
-          navigate("/profile");
+          localStorage.setItem("authToken", response.data.token);
+          // Make sure the key matches
+          console.log(
+            localStorage.getItem("authToken"),
+            "Token before setting"
+          );
+          console.log(localStorage.getItem("role"), "Role before setting");
+          localStorage.setItem("role", response.data.role);
+          console.log(localStorage.getItem("role"), "Role after setting");
+          console.log(localStorage.getItem("authToken"), "Token after setting"); // Check token storage
+          if (response.data.role === "admin") {
+            navigate("/admin-dashboard"); // Redirect to admin dashboard
+          } else {
+            navigate("/profile"); // Redirect to user dashboard
+          }
         });
       } catch (error) {
         Swal.fire({
           icon: "error",
           title: "Error",
           text: "Login failed. Please check your credentials.",
-          customClass: {
-            confirmButton: "swal-button", // Custom class for button
-          },
-        });
-      }
-    } else if (!isForgotPassword) {
-      try {
-        const response = await axios.post(
-          "http://localhost:8080/api/auth/signup",
-          formData
-        );
-        setUserId(response.data.userId); // Save userId from the response
-        Swal.fire({
-          icon: "success",
-          title: "Signup Successful",
-          text: "You have successfully signed up. Please check your email for OTP.",
-          customClass: {
-            confirmButton: "swal-button", // Custom class for button
-          },
-        }).then(() => {
-          setOtpSent(true);
-        });
-      } catch (error) {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "Signup failed. Please try again.",
           customClass: {
             confirmButton: "swal-button", // Custom class for button
           },
