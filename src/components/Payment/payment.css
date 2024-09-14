@@ -1,76 +1,105 @@
-/* Ensure the form looks centered and has good spacing */
-form {
+.payment-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.payment-form {
   max-width: 500px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+  padding: 30px;
+  background: linear-gradient(135deg, #6dd5ed, #2193b0);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: white;
+  font-family: "Arial", sans-serif;
 }
 
-/* Style each form input */
-div {
-  margin-bottom: 15px;
+/* Style each form group */
+.form-group {
+  margin-bottom: 20px;
 }
 
-/* Style labels to be more readable */
-label {
+/* Labels with better contrast and font style */
+.form-label {
   display: block;
   font-weight: bold;
-  margin-bottom: 5px;
-  color: #333;
+  margin-bottom: 8px;
+  font-size: 16px;
 }
 
-/* Style the input fields for better aesthetics */
-input[type="number"],
-input[type="text"],
-select {
+/* Inputs and select dropdown with modern look */
+.form-input,
+.form-select {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #f1f1f1;
+  font-size: 16px;
+  color: #333;
+  transition: box-shadow 0.3s ease;
 }
 
-/* Specific styling for the phone number container */
-.phone-number-container {
+.form-input:focus,
+.form-select:focus {
+  box-shadow: 0 0 10px rgba(33, 147, 176, 0.6);
+}
+
+/* PhoneInput CSS */
+.phone-input-container {
   display: flex;
   align-items: center;
+  position: relative;
 }
 
-/* Style the prefix to blend well with the input */
-.phone-prefix {
-  background-color: #ddd;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px 0 0 4px;
-  margin-right: -1px; /* Overlap with input field border */
-  font-size: 16px;
-  line-height: 1.5;
-}
-
-/* Style the phone number input to align with the prefix */
-.phone-number-input {
-  border: 1px solid #ccc;
-  border-radius: 0 4px 4px 0;
-  padding: 10px;
+.phone-input {
   width: 100%;
-  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  color: #333;
+  background-color: #f1f1f1;
 }
 
 /* Style the submit button */
-button {
-  background-color: #007bff;
+.form-button {
+  background-color: #ff6b6b;
   color: #fff;
-  padding: 10px 15px;
+  padding: 12px 20px;
   border: none;
-  border-radius: 4px;
-  font-size: 16px;
+  border-radius: 6px;
+  font-size: 18px;
   cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: block;
   width: 100%;
+  text-align: center;
 }
 
 /* Button hover effect */
-button:hover {
-  background-color: #0056b3;
+.form-button:hover {
+  background-color: #ff4757;
+  transform: translateY(-2px);
+}
+
+/* Add a small hover effect on input fields */
+.form-input:hover,
+.form-select:hover {
+  box-shadow: 0 0 8px rgba(33, 147, 176, 0.4);
+}
+
+/* Better mobile responsiveness */
+@media (max-width: 600px) {
+  .payment-form {
+    padding: 20px;
+    margin: 20px;
+  }
+
+  .form-button {
+    font-size: 16px;
+  }
 }

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
-import "./profile.css"; // Ensure this path is correct
+import { useNavigate } from "react-router-dom";
+import "./profile.css";
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -32,7 +32,7 @@ const ProfilePage = () => {
 
         setUser(response.data);
       } catch (error) {
-        console.error("Error fetching user profile:", error); // Debugging info
+        console.error("Error fetching user profile:", error);
         Swal.fire({
           icon: "error",
           title: "Error",
@@ -48,7 +48,7 @@ const ProfilePage = () => {
   }, []);
 
   const handlePaymentRedirect = () => {
-    navigate("/payment"); // Redirect to PaymentForm page
+    navigate("/payment");
   };
 
   if (loading) {
@@ -57,26 +57,43 @@ const ProfilePage = () => {
 
   return (
     <div className="profile-container">
-      {user ? (
-        <div className="profile-details">
-          <h1>Profile</h1>
-          <p>
-            <strong>Name:</strong> {user.name}
-          </p>
-          <p>
-            <strong>House Number:</strong> {user.houseNumber}
-          </p>
-          <p>
-            <strong>Phone Number:</strong> {user.phoneNumber}
-          </p>
-          <p>
-            <strong>Email:</strong> {user.email}
-          </p>
+      <div className="download-btn-container">
+        <button className="download-btn">Download</button>
+      </div>
 
-          {/* Button to redirect to PaymentForm */}
-          <button className="pay-btn" onClick={handlePaymentRedirect}>
-            Go to Payment Form
-          </button>
+      {user ? (
+        <div className="cards-container">
+          <div className="profile-card">
+            <h1>Profile</h1>
+            <div className="profile-info">
+              <p>
+                <strong>Name:</strong> {user.name}
+              </p>
+              <p>
+                <strong>House Number:</strong> {user.houseNumber}
+              </p>
+              <p>
+                <strong>Phone Number:</strong> {user.phoneNumber}
+              </p>
+              <p>
+                <strong>Email:</strong> {user.email}
+              </p>
+            </div>
+
+            <button className="pay-btn" onClick={handlePaymentRedirect}>
+              Pay Now
+            </button>
+          </div>
+
+          <div className="bargraph-card">
+            <h3>Monthly Payment Status</h3>
+            <div className="bargraph">
+              <div className="bar paid">January - Paid</div>
+              <div className="bar unpaid">February - Unpaid</div>
+              <div className="bar paid">March - Paid</div>
+              {/* Add more months as needed */}
+            </div>
+          </div>
         </div>
       ) : (
         <div>No user data available</div>

@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import "./payment.css";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 
 const PaymentForm = () => {
   const [amount, setAmount] = useState("");
@@ -35,14 +38,13 @@ const PaymentForm = () => {
       const { orderId, amount: paymentAmount, currency } = response.data;
 
       if (orderId) {
-        // Load Razorpay script dynamically
         const script = document.createElement("script");
         script.src = "https://checkout.razorpay.com/v1/checkout.js";
         script.async = true;
         script.onload = () => {
           const options = {
-            key: "rzp_test_8G15JO7rGWgx2b", // Replace with your Razorpay key ID
-            amount: paymentAmount, // Amount in paise
+            key: "rzp_test_8G15JO7rGWgx2b",
+            amount: paymentAmount,
             currency: currency,
             name: "Your Company Name",
             description: "Payment for Society Maintenance",
@@ -53,10 +55,9 @@ const PaymentForm = () => {
                 title: "Payment successful",
                 text: "Thank you for your payment!",
               });
-              // Optionally, you can call your backend to update payment status
             },
             prefill: {
-              name: "", // Optionally fill user details
+              name: "",
               email: "",
               contact: phoneNumber,
             },
@@ -79,60 +80,71 @@ const PaymentForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Amount:</label>
-        <input
-          type="number"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label>Month:</label>
-        <select
-          value={month}
-          onChange={(e) => setMonth(e.target.value)}
-          required
-        >
-          <option value="">Select a month</option>
-          <option value="January">January</option>
-          <option value="February">February</option>
-          <option value="March">March</option>
-          <option value="April">April</option>
-          <option value="May">May</option>
-          <option value="June">June</option>
-          <option value="July">July</option>
-          <option value="August">August</option>
-          <option value="September">September</option>
-          <option value="October">October</option>
-          <option value="November">November</option>
-          <option value="December">December</option>
-        </select>
-      </div>
-      <div>
-        <label>Year:</label>
-        <input
-          type="number"
-          value={year}
-          onChange={(e) => setYear(e.target.value)}
-          required
-          min="2000"
-          max="2100"
-        />
-      </div>
-      <div>
-        <label>Phone Number:</label>
-        <input
-          type="text"
-          value={phoneNumber}
-          onChange={(e) => setPhoneNumber(e.target.value)}
-          required
-        />
-      </div>
-      <button type="submit">Initiate Payment</button>
-    </form>
+    <div className="payment-form-container">
+      <form className="payment-form" onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label className="form-label">Amount:</label>
+          <input
+            type="number"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            required
+            className="form-input"
+          />
+        </div>
+        <div className="form-group">
+          <label className="form-label">Month:</label>
+          <select
+            value={month}
+            onChange={(e) => setMonth(e.target.value)}
+            required
+            className="form-select"
+          >
+            <option value="">Select a month</option>
+            <option value="January">January</option>
+            <option value="February">February</option>
+            <option value="March">March</option>
+            <option value="April">April</option>
+            <option value="May">May</option>
+            <option value="June">June</option>
+            <option value="July">July</option>
+            <option value="August">August</option>
+            <option value="September">September</option>
+            <option value="October">October</option>
+            <option value="November">November</option>
+            <option value="December">December</option>
+          </select>
+        </div>
+        <div className="form-group">
+          <label className="form-label">Year:</label>
+          <input
+            type="number"
+            value={year}
+            onChange={(e) => setYear(e.target.value)}
+            required
+            min="2000"
+            max="2100"
+            className="form-input"
+          />
+        </div>
+        <div className="form-group">
+          <label className="form-label">Phone Number:</label>
+          <div className="phone-input-container">
+            <PhoneInput
+              international
+              defaultCountry="IN"
+              value={phoneNumber}
+              onChange={setPhoneNumber}
+              className="phone-input"
+              countrySelectProps={{ unicodeFlags: true }}
+            />
+          </div>
+        </div>
+        <button type="submit" className="form-button">
+          Initiate Payment
+        </button>
+      </form>
+    </div>
   );
 };
 

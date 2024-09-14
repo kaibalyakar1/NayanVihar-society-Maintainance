@@ -64,12 +64,18 @@ const LoginSignup = () => {
         icon: "success",
         title: "OTP Sent",
         text: "An OTP has been sent to your registered email.",
+        customClass: {
+          confirmButton: "swal-button", // Custom class for button
+        },
       });
     } catch (error) {
       Swal.fire({
         icon: "error",
         title: "Error",
         text: "Error occurred while sending OTP. Please try again.",
+        customClass: {
+          confirmButton: "swal-button", // Custom class for button
+        },
       });
     }
   };
@@ -81,6 +87,9 @@ const LoginSignup = () => {
         icon: "error",
         title: "Missing Information",
         text: "Please provide both OTP and User ID.",
+        customClass: {
+          confirmButton: "swal-button", // Custom class for button
+        },
       });
       return;
     }
@@ -95,12 +104,18 @@ const LoginSignup = () => {
         icon: "success",
         title: "OTP Verified",
         text: "OTP successfully verified. You can now reset your password.",
+        customClass: {
+          confirmButton: "swal-button", // Custom class for button
+        },
       });
     } catch (error) {
       Swal.fire({
         icon: "error",
         title: "Error",
         text: error.response?.data?.message || "Invalid OTP. Please try again.",
+        customClass: {
+          confirmButton: "swal-button", // Custom class for button
+        },
       });
     }
   };
@@ -130,6 +145,9 @@ const LoginSignup = () => {
         icon: "success",
         title: "Password Reset",
         text: "Your password has been reset successfully!",
+        customClass: {
+          confirmButton: "swal-button", // Custom class for button
+        },
       }).then(() => {
         setIsLogin(true);
         resetFormState();
@@ -142,6 +160,9 @@ const LoginSignup = () => {
         text:
           error.response?.data?.message ||
           "Error resetting password. Please try again.",
+        customClass: {
+          confirmButton: "swal-button", // Custom class for button
+        },
       });
     }
   };
@@ -159,6 +180,9 @@ const LoginSignup = () => {
           icon: "success",
           title: "Login Successful",
           text: "You have successfully logged in.",
+          customClass: {
+            confirmButton: "swal-button", // Custom class for button
+          },
         }).then(() => {
           localStorage.setItem("token", response.data.token);
           navigate("/profile");
@@ -168,6 +192,9 @@ const LoginSignup = () => {
           icon: "error",
           title: "Error",
           text: "Login failed. Please check your credentials.",
+          customClass: {
+            confirmButton: "swal-button", // Custom class for button
+          },
         });
       }
     } else if (!isForgotPassword) {
@@ -181,6 +208,9 @@ const LoginSignup = () => {
           icon: "success",
           title: "Signup Successful",
           text: "You have successfully signed up. Please check your email for OTP.",
+          customClass: {
+            confirmButton: "swal-button", // Custom class for button
+          },
         }).then(() => {
           setOtpSent(true);
         });
@@ -189,154 +219,159 @@ const LoginSignup = () => {
           icon: "error",
           title: "Error",
           text: "Signup failed. Please try again.",
+          customClass: {
+            confirmButton: "swal-button", // Custom class for button
+          },
         });
       }
     }
   };
 
   return (
-    <div className="main">
-      <input
-        type="checkbox"
-        id="chk"
-        aria-hidden="true"
-        checked={isLogin}
-        onChange={toggleForm}
-      />
+    <div className="payment-page">
+      <div className="main">
+        <input
+          type="checkbox"
+          id="chk"
+          aria-hidden="true"
+          checked={isLogin}
+          onChange={toggleForm}
+        />
 
-      <div className={`signup ${isLogin ? "hidden" : ""}`}>
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="chk" aria-hidden="true">
-            {isForgotPassword ? "Forgot Password" : "Sign up"}
-          </label>
+        <div className={`signup ${isLogin ? "hidden" : ""}`}>
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="chk" aria-hidden="true">
+              {isForgotPassword ? "Forgot Password" : "Sign up"}
+            </label>
 
-          {!otpSent && !isOtpVerified && (
-            <>
-              {!isForgotPassword ? (
-                <>
-                  {/* Signup form */}
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <input
-                    type="text"
-                    name="houseNumber"
-                    placeholder="House Number"
-                    value={formData.houseNumber}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <input
-                    type="tel"
-                    name="phoneNumber"
-                    placeholder="+91 Phone Number"
-                    value={formData.phoneNumber}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={formData.password}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <button type="submit">Send OTP</button>
-                </>
-              ) : (
-                <>
-                  {/* Forgot Password form */}
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Registered Email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <button type="button" onClick={sendForgotPasswordOtp}>
-                    Send OTP
-                  </button>
-                </>
-              )}
-            </>
-          )}
+            {!otpSent && !isOtpVerified && (
+              <>
+                {!isForgotPassword ? (
+                  <>
+                    {/* Signup form */}
+                    <input
+                      type="text"
+                      name="name"
+                      placeholder="Name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="houseNumber"
+                      placeholder="House Number"
+                      value={formData.houseNumber}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <input
+                      type="tel"
+                      name="phoneNumber"
+                      placeholder="+91 Phone Number"
+                      value={formData.phoneNumber}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <input
+                      type="password"
+                      name="password"
+                      placeholder="Password"
+                      value={formData.password}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <button type="submit">Send OTP</button>
+                  </>
+                ) : (
+                  <>
+                    {/* Forgot Password form */}
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Registered Email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    <button type="button" onClick={sendForgotPasswordOtp}>
+                      Send OTP
+                    </button>
+                  </>
+                )}
+              </>
+            )}
 
-          {otpSent && !isOtpVerified && (
-            <>
-              <input
-                type="text"
-                name="otp"
-                placeholder="Enter OTP"
-                value={formData.otp}
-                onChange={handleInputChange}
-                required
-              />
-              <button type="button" onClick={verifyForgotPasswordOtp}>
-                Verify OTP
-              </button>
-            </>
-          )}
+            {otpSent && !isOtpVerified && (
+              <>
+                <input
+                  type="text"
+                  name="otp"
+                  placeholder="Enter OTP"
+                  value={formData.otp}
+                  onChange={handleInputChange}
+                  required
+                />
+                <button type="button" onClick={verifyForgotPasswordOtp}>
+                  Verify OTP
+                </button>
+              </>
+            )}
 
-          {otpSent && isOtpVerified && isForgotPassword && (
-            <>
-              {/* Reset Password input after OTP verification */}
-              <input
-                type="password"
-                name="password"
-                placeholder="New Password"
-                value={formData.password}
-                onChange={handleInputChange}
-                required
-              />
-              <button type="button" onClick={resetPassword}>
-                Reset Password
-              </button>
-            </>
-          )}
-        </form>
-      </div>
+            {otpSent && isOtpVerified && isForgotPassword && (
+              <>
+                {/* Reset Password input after OTP verification */}
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="New Password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  required
+                />
+                <button type="button" onClick={resetPassword}>
+                  Reset Password
+                </button>
+              </>
+            )}
+          </form>
+        </div>
 
-      <div className={`login ${isLogin ? "" : "hidden"}`}>
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="chk" aria-hidden="true">
-            Login
-          </label>
-          <input
-            type="tel"
-            name="phoneNumber"
-            placeholder="+91 Phone Number"
-            value={formData.phoneNumber}
-            onChange={handleInputChange}
-            required
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleInputChange}
-            required
-          />
-          <button type="submit">Login</button>
-        </form>
-        <button type="button" onClick={handleForgotPassword}>
-          Forgot Password?
-        </button>
+        <div className={`login ${isLogin ? "" : "hidden"}`}>
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="chk" aria-hidden="true">
+              Login
+            </label>
+            <input
+              type="tel"
+              name="phoneNumber"
+              placeholder="+91 Phone Number"
+              value={formData.phoneNumber}
+              onChange={handleInputChange}
+              required
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleInputChange}
+              required
+            />
+            <button type="submit">Login</button>
+          </form>
+          <button type="button" onClick={handleForgotPassword}>
+            Forgot Password?
+          </button>
+        </div>
       </div>
     </div>
   );
