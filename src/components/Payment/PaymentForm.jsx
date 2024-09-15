@@ -23,6 +23,12 @@ const PaymentForm = () => {
       return;
     }
 
+    // Format phone number by adding a space after the country code
+    const formattedPhoneNumber = phoneNumber.replace(
+      /(\+\d{2})(\d{10})/,
+      "$1 $2"
+    );
+
     const monthmyear = `${month} ${year}`;
 
     try {
@@ -31,7 +37,7 @@ const PaymentForm = () => {
         {
           amount,
           monthmyear,
-          phoneNumber,
+          phoneNumber: formattedPhoneNumber, // Send formatted phone number
         }
       );
 
@@ -59,7 +65,7 @@ const PaymentForm = () => {
             prefill: {
               name: "",
               email: "",
-              contact: phoneNumber,
+              contact: formattedPhoneNumber, // Use the formatted phone number
             },
           };
 

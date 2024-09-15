@@ -3,6 +3,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import "./auth.css";
 import { useNavigate } from "react-router-dom";
+
 const LoginSignup = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [otpSent, setOtpSent] = useState(false);
@@ -18,6 +19,7 @@ const LoginSignup = () => {
     otp: "",
   });
   const navigate = useNavigate();
+
   const toggleForm = () => {
     setIsLogin(!isLogin);
     resetFormState();
@@ -58,24 +60,18 @@ const LoginSignup = () => {
         "http://localhost:8080/api/auth/forgot-password",
         { email }
       );
-      setUserId(response.data.userId); // Save userId from the response
+      setUserId(response.data.userId);
       setOtpSent(true);
       Swal.fire({
         icon: "success",
         title: "OTP Sent",
         text: "An OTP has been sent to your registered email.",
-        customClass: {
-          confirmButton: "swal-button", // Custom class for button
-        },
       });
     } catch (error) {
       Swal.fire({
         icon: "error",
         title: "Error",
         text: "Error occurred while sending OTP. Please try again.",
-        customClass: {
-          confirmButton: "swal-button", // Custom class for button
-        },
       });
     }
   };
@@ -87,9 +83,6 @@ const LoginSignup = () => {
         icon: "error",
         title: "Missing Information",
         text: "Please provide both OTP and User ID.",
-        customClass: {
-          confirmButton: "swal-button", // Custom class for button
-        },
       });
       return;
     }
@@ -104,18 +97,12 @@ const LoginSignup = () => {
         icon: "success",
         title: "OTP Verified",
         text: "OTP successfully verified. You can now reset your password.",
-        customClass: {
-          confirmButton: "swal-button", // Custom class for button
-        },
       });
     } catch (error) {
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: error.response?.data?.message || "Invalid OTP. Please try again.",
-        customClass: {
-          confirmButton: "swal-button", // Custom class for button
-        },
+        text: "Invalid OTP. Please try again.",
       });
     }
   };
@@ -123,7 +110,6 @@ const LoginSignup = () => {
   const resetPassword = async () => {
     const { password } = formData;
 
-    // Check if userId and password are provided
     if (!userId || !password) {
       Swal.fire({
         icon: "error",
@@ -134,40 +120,58 @@ const LoginSignup = () => {
     }
 
     try {
-      // Make the POST request to reset the password
-      const response = await axios.post(
-        "http://localhost:8080/api/auth/reset-password",
-        { userId, newPassword: password } // Ensure correct field name
-      );
-
-      // Show success message and redirect to login
+      await axios.post("http://localhost:8080/api/auth/reset-password", {
+        userId,
+        newPassword: password,
+      });
       Swal.fire({
         icon: "success",
         title: "Password Reset",
         text: "Your password has been reset successfully!",
-        customClass: {
-          confirmButton: "swal-button", // Custom class for button
-        },
       }).then(() => {
         setIsLogin(true);
         resetFormState();
       });
     } catch (error) {
-      // Handle error
       Swal.fire({
         icon: "error",
         title: "Error",
-        text:
-          error.response?.data?.message ||
-          "Error resetting password. Please try again.",
-        customClass: {
-          confirmButton: "swal-button", // Custom class for button
-        },
+        text: "Error resetting password. Please try again.",
       });
     }
   };
 
-  // In LoginSignup component
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    const { name, houseNumber, phoneNumber, email, password } = formData;
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/auth/signup",
+        {
+          name,
+          houseNumber,
+          phoneNumber,
+          email,
+          password,
+        }
+      );
+      setUserId(response.data.userId);
+      setOtpSent(true);
+      Swal.fire({
+        icon: "success",
+        title: "OTP Sent",
+        text: "An OTP has been sent to your phone.",
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Signup failed. Please try again.",
+      });
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -181,24 +185,14 @@ const LoginSignup = () => {
           icon: "success",
           title: "Login Successful",
           text: "You have successfully logged in.",
-          customClass: {
-            confirmButton: "swal-button", // Custom class for button
-          },
         }).then(() => {
           localStorage.setItem("authToken", response.data.token);
-          // Make sure the key matches
-          console.log(
-            localStorage.getItem("authToken"),
-            "Token before setting"
-          );
-          console.log(localStorage.getItem("role"), "Role before setting");
+          console.log("Token:", response.data.token);
           localStorage.setItem("role", response.data.role);
-          console.log(localStorage.getItem("role"), "Role after setting");
-          console.log(localStorage.getItem("authToken"), "Token after setting"); // Check token storage
           if (response.data.role === "admin") {
-            navigate("/admin-dashboard"); // Redirect to admin dashboard
+            navigate("/admin-dashboard");
           } else {
-            navigate("/profile"); // Redirect to user dashboard
+            navigate("/profile");
           }
         });
       } catch (error) {
@@ -206,9 +200,6 @@ const LoginSignup = () => {
           icon: "error",
           title: "Error",
           text: "Login failed. Please check your credentials.",
-          customClass: {
-            confirmButton: "swal-button", // Custom class for button
-          },
         });
       }
     }
@@ -224,9 +215,8 @@ const LoginSignup = () => {
           checked={isLogin}
           onChange={toggleForm}
         />
-
         <div className={`signup ${isLogin ? "hidden" : ""}`}>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={isForgotPassword ? handleSubmit : handleSignup}>
             <label htmlFor="chk" aria-hidden="true">
               {isForgotPassword ? "Forgot Password" : "Sign up"}
             </label>
@@ -235,7 +225,6 @@ const LoginSignup = () => {
               <>
                 {!isForgotPassword ? (
                   <>
-                    {/* Signup form */}
                     <input
                       type="text"
                       name="name"
@@ -280,7 +269,6 @@ const LoginSignup = () => {
                   </>
                 ) : (
                   <>
-                    {/* Forgot Password form */}
                     <input
                       type="email"
                       name="email"
@@ -315,7 +303,6 @@ const LoginSignup = () => {
 
             {otpSent && isOtpVerified && isForgotPassword && (
               <>
-                {/* Reset Password input after OTP verification */}
                 <input
                   type="password"
                   name="password"

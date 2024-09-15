@@ -12,7 +12,8 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("authToken");
+        console.log("Token retrieved from localStorage:", token);
 
         if (!token) {
           Swal.fire({
@@ -33,12 +34,22 @@ const ProfilePage = () => {
         setUser(response.data);
       } catch (error) {
         console.error("Error fetching user profile:", error);
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text:
-            error.response?.data?.message || "Failed to fetch user profile.",
-        });
+
+        if (error.response?.status === 401) {
+          localStorage.removeItem("token");
+          Swal.fire({
+            icon: "error",
+            title: "Unauthorized",
+            text: "Your session has expired. Please log in again.",
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text:
+              error.response?.data?.message || "Failed to fetch user profile.",
+          });
+        }
       } finally {
         setLoading(false);
       }
@@ -46,6 +57,7 @@ const ProfilePage = () => {
 
     fetchUserProfile();
   }, []);
+  // Add any dependencies if necessary
 
   const handlePaymentRedirect = () => {
     navigate("/payment");

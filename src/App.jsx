@@ -14,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login-signup" element={<LoginSignup />} />
+        <Route path="/payment" element={<PaymentForm />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/admin-dashboard" element={<Admin />} />
         {/* Add other routes here */}

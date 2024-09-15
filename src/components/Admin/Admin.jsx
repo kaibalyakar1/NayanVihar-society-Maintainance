@@ -1,90 +1,80 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import "./Admin.css";
 
 const Admin = () => {
   const [usersWithPayments, setUsersWithPayments] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsersWithPayments = async () => {
-      const token = localStorage.getItem("authToken");
-      const role = localStorage.getItem("role");
-
-      // Check if token and role are present and correct
-      if (!token || role !== "admin") {
-        navigate("/login-signup"); // Redirect to login if not authorized
-        return;
-      }
-
       try {
         const response = await axios.get(
           "http://localhost:8080/api/admin/users",
           {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${localStorage.getItem("authToken")}`,
             },
           }
         );
         setUsersWithPayments(response.data);
       } catch (error) {
         console.error("Error fetching users with payments:", error);
-        if (error.response && error.response.status === 401) {
-          localStorage.removeItem("authToken");
-          localStorage.removeItem("role");
-          navigate("/login-signup"); // Redirect to login on unauthorized
-        }
-      } finally {
-        setLoading(false);
       }
     };
 
     fetchUsersWithPayments();
-  }, [navigate]);
+  }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  const formatDate = (date) => {
+    const parsedDate = new Date(date);
+    return isNaN(parsedDate) ? "No payment" : parsedDate.toLocaleDateString();
+  };
 
   return (
     <div className="admin-dashboard">
-      <h1>Admin Dashboard</h1>
-      <div className="user-list">
-        {usersWithPayments.length === 0 ? (
-          <p>No users found.</p>
-        ) : (
-          usersWithPayments.map(({ user, payments }) => (
-            <div key={user.phoneNumber} className="user-card">
-              <h2>{user.name}</h2>
-              <p>House Number: {user.houseNumber}</p>
-              <p>Phone Number: {user.phoneNumber}</p>
-              <p>Email: {user.email}</p>
-              <h3>Payments:</h3>
-              {payments.length === 0 ? (
-                <p>No payments found.</p>
-              ) : (
-                <ul>
-                  {payments.map((payment) => (
-                    <li key={payment._id}>
-                      <p>Month: {payment.month}</p>
-                      <p>Year: {payment.year}</p>
-                      <p>Amount: ₹{payment.amount}</p>
-                      <p>Status: {payment.status}</p>
-                      <p>
-                        Paid Date:{" "}
-                        {payment.paidDate
-                          ? new Date(payment.paidDate).toLocaleDateString()
-                          : "N/A"}
-                      </p>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          ))
-        )}
+      <aside className="sidebar">
+        <h2>Admin Dashboard</h2>
+        <nav>
+          <ul>
+            <li>Dashboard</li>
+            <li>Users</li>
+            <li>Payments</li>
+            <li>Settings</li>
+          </ul>
+        </nav>
+      </aside>
+
+      <div className="dashboard-content">
+        <header className="dashboard-header">
+          <h1>Users & Payments</h1>
+        </header>
+
+        <main>
+          <div className="users-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone No</th>
+                  <th>House No</th>
+                  <th>Payment Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {usersWithPayments.map((entry) => (
+                  <tr key={entry.user._id}>
+                    <td>{entry.user.name}</td>
+                    <td>{entry.user.email}</td>
+                    <td>{entry.user.phoneNumber}</td>
+                    <td>{entry.user.houseNumber}</td>
+                    <td>{formatDate(entry.paymentDate)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </main>
       </div>
     </div>
   );
