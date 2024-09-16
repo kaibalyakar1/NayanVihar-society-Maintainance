@@ -8,12 +8,12 @@ const ProfilePage = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const [paidMonths, setPaidMonths] = useState([]);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
         const token = localStorage.getItem("authToken");
-        console.log("Token retrieved from localStorage:", token);
 
         if (!token) {
           Swal.fire({
@@ -46,8 +46,7 @@ const ProfilePage = () => {
           Swal.fire({
             icon: "error",
             title: "Error",
-            text:
-              error.response?.data?.message || "Failed to fetch user profile.",
+            text: "Failed to fetch user profile.",
           });
         }
       } finally {
@@ -55,7 +54,48 @@ const ProfilePage = () => {
       }
     };
 
+    const fetchUserPayments = async () => {
+      try {
+        const token = localStorage.getItem("authToken");
+
+        if (!token) {
+          Swal.fire({
+            icon: "error",
+            title: "Unauthorized",
+            text: "You must be logged in to fetch payments.",
+          });
+          return;
+        }
+
+        const response = await axios.get(
+          "http://localhost:8080/api/user/payments",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        const payments = response.data;
+        const monthsPaid = payments.map((payment) => {
+          const paymentDate = new Date(payment.date);
+          return {
+            month: paymentDate.getMonth() + 1, // 1-based month index
+            year: paymentDate.getFullYear(),
+          };
+        });
+
+        setPaidMonths(monthsPaid);
+      } catch (error) {
+        console.error("Error fetching user payments:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Failed to fetch payment history.",
+        });
+      }
+    };
+
     fetchUserProfile();
+    fetchUserPayments();
   }, []);
 
   const handlePaymentRedirect = () => {
@@ -79,14 +119,14 @@ const ProfilePage = () => {
         "http://localhost:8080/api/user/download-self",
         {
           headers: { Authorization: `Bearer ${token}` },
-          responseType: "blob", // Important for handling file downloads
+          responseType: "blob",
         }
       );
 
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");
       link.href = url;
-      link.setAttribute("download", "your-payments.xlsx"); // Set file name
+      link.setAttribute("download", "your-payments.xlsx");
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -103,6 +143,21 @@ const ProfilePage = () => {
   if (loading) {
     return <div>Loading...</div>;
   }
+
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
 
   return (
     <div className="profile-container">
@@ -138,11 +193,16 @@ const ProfilePage = () => {
 
           <div className="bargraph-card">
             <h3>Monthly Payment Status</h3>
-            <div className="bargraph">
-              <div className="bar paid">January - Paid</div>
-              <div className="bar unpaid">February - Unpaid</div>
-              <div className="bar paid">March - Paid</div>
-              {/* Add more months as needed */}
+            <div className="payment-status-grid">
+              {paidMonths.length > 0 ? (
+                paidMonths.map(({ month, year }, index) => (
+                  <div key={index} className="payment-status-block paid">
+                    {months[month - 1]} {year} - Paid
+                  </div>
+                ))
+              ) : (
+                <div>No payments recorded</div>
+              )}
             </div>
           </div>
         </div>

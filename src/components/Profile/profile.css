@@ -13,14 +13,12 @@
 /* Download button styling */
 .download-btn-container {
   position: absolute;
-  top: 20px; /* Distance from the navbar */
-  right: 20px; /* Align to the right side */
+  top: 20px;
+  right: 20px;
 }
 
 .download-btn {
-  margin-top: 70px;
   padding: 10px 20px;
-  width: max-content;
   border-radius: 5px;
   border: none;
   background-color: #4a90e2;
@@ -52,7 +50,7 @@
   box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 45%;
-  min-width: 280px; /* Makes the card responsive */
+  min-width: 280px;
 }
 
 /* Text and button inside the profile card */
@@ -91,26 +89,31 @@ h1 {
   margin-bottom: 20px;
 }
 
-.bargraph {
-  display: flex;
-  flex-direction: column;
+.payment-status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
 }
 
-.bar {
+/* Payment status block styling */
+.payment-status-block {
   padding: 10px;
-  margin: 5px 0;
   border-radius: 5px;
   color: white;
   font-weight: bold;
   text-align: center;
 }
 
-.bar.paid {
-  background-color: #4caf50; /* Green for paid months */
+.paid {
+  background-color: green; /* Green for paid months */
 }
 
-.bar.unpaid {
-  background-color: #f44336; /* Red for unpaid months */
+.pending {
+  background-color: red; /* Red for pending months */
+}
+
+.upcoming {
+  background-color: orange; /* Orange for upcoming months */
 }
 
 /* Responsive adjustments */
