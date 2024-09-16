@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import * as XLSX from "xlsx";
+
 import "./Admin.css";
 
 const Admin = () => {
@@ -30,6 +32,26 @@ const Admin = () => {
     return isNaN(parsedDate) ? "No payment" : parsedDate.toLocaleDateString();
   };
 
+  const handleDownloadExcel = () => {
+    // Create a new workbook and add a worksheet
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(
+      usersWithPayments.map((entry) => ({
+        Name: entry.user.name,
+        Email: entry.user.email,
+        "Phone No": entry.user.phoneNumber,
+        "House No": entry.user.houseNumber,
+        "Payment Date": formatDate(entry.paymentDate),
+      }))
+    );
+
+    // Add the worksheet to the workbook
+    XLSX.utils.book_append_sheet(wb, ws, "Users with Payments");
+
+    // Write the workbook to a file
+    XLSX.writeFile(wb, "UsersWithPayments.xlsx");
+  };
+
   return (
     <div className="admin-dashboard">
       <aside className="sidebar">
@@ -50,6 +72,12 @@ const Admin = () => {
         </header>
 
         <main>
+          <div className="download-btn-container">
+            <button className="download-btn" onClick={handleDownloadExcel}>
+              Download Excel
+            </button>
+          </div>
+
           <div className="users-table">
             <table>
               <thead>
