@@ -36,7 +36,7 @@ const ProfilePage = () => {
         console.error("Error fetching user profile:", error);
 
         if (error.response?.status === 401) {
-          localStorage.removeItem("token");
+          localStorage.removeItem("authToken");
           Swal.fire({
             icon: "error",
             title: "Unauthorized",
@@ -57,10 +57,47 @@ const ProfilePage = () => {
 
     fetchUserProfile();
   }, []);
-  // Add any dependencies if necessary
 
   const handlePaymentRedirect = () => {
     navigate("/payment");
+  };
+
+  const handleDownload = async () => {
+    try {
+      const token = localStorage.getItem("authToken");
+
+      if (!token) {
+        Swal.fire({
+          icon: "error",
+          title: "Unauthorized",
+          text: "You must be logged in to download the file.",
+        });
+        return;
+      }
+
+      const response = await axios.get(
+        "http://localhost:8080/api/user/download-self",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          responseType: "blob", // Important for handling file downloads
+        }
+      );
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "your-payments.xlsx"); // Set file name
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Error downloading file:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Failed to download the file.",
+      });
+    }
   };
 
   if (loading) {
@@ -70,7 +107,9 @@ const ProfilePage = () => {
   return (
     <div className="profile-container">
       <div className="download-btn-container">
-        <button className="download-btn">Download</button>
+        <button className="download-btn" onClick={handleDownload}>
+          Download
+        </button>
       </div>
 
       {user ? (
