@@ -4,12 +4,14 @@ import Swal from "sweetalert2";
 import "./payment.css";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const PaymentForm = () => {
   const [amount, setAmount] = useState("");
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,6 +62,8 @@ const PaymentForm = () => {
                 icon: "success",
                 title: "Payment successful",
                 text: "Thank you for your payment!",
+              }).then(() => {
+                navigate("/profile"); // Redirect to profile page after payment
               });
             },
             prefill: {
