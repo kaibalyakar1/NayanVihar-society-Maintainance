@@ -43,7 +43,7 @@
   max-width: 1000px;
 }
 
-/* Profile card styling */
+/* Profile and Bar graph card styling */
 .profile-card,
 .bargraph-card {
   background-color: white;
@@ -55,7 +55,7 @@
   min-width: 280px;
 }
 
-/* Text and button inside the profile card */
+/* Profile card text and button styling */
 h1 {
   margin-bottom: 20px;
   font-size: 2rem;
@@ -85,21 +85,21 @@ h1 {
 .pay-btn:hover {
   background-color: #357abd;
 }
+
 /* SweetAlert2 OK button styling */
 .swal2-popup .swal2-actions button {
-  /* Adjust padding to make it look uniform */
-  font-size: 16px; /* Make font consistent with your design */
-  border-radius: 5px; /* Add some border-radius if needed */
+  font-size: 16px;
+  border-radius: 5px;
   width: max-content;
 }
 
-/* Center align OK button */
-
-/* Bar graph card styling */
+/* Bar graph card header styling */
 .bargraph-card h3 {
   margin-bottom: 20px;
+  color: #4a90e2;
 }
 
+/* Payment status grid layout */
 .payment-status-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -116,15 +116,15 @@ h1 {
 }
 
 .paid {
-  background-color: green; /* Green for paid months */
+  background-color: green;
 }
 
 .pending {
-  background-color: red; /* Red for pending months */
+  background-color: red;
 }
 
 .upcoming {
-  background-color: orange; /* Orange for upcoming months */
+  background-color: orange;
 }
 
 /* Responsive adjustments */

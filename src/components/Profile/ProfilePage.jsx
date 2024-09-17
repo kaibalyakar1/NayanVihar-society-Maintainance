@@ -7,10 +7,11 @@ import "./profile.css";
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
   const [paidMonths, setPaidMonths] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    // Fetch user profile
     const fetchUserProfile = async () => {
       try {
         const token = localStorage.getItem("authToken");
@@ -54,6 +55,7 @@ const ProfilePage = () => {
       }
     };
 
+    // Fetch user payments
     const fetchUserPayments = async () => {
       try {
         const token = localStorage.getItem("authToken");
@@ -75,11 +77,28 @@ const ProfilePage = () => {
         );
 
         const payments = response.data;
+
+        // Use the months array to map the month number to the month name
+        const months = [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ];
+
         const monthsPaid = payments.map((payment) => {
-          const paymentDate = new Date(payment.date);
           return {
-            month: paymentDate.getMonth() + 1, // 1-based month index
-            year: paymentDate.getFullYear(),
+            month: months[payment.month - 1], // Get the month name
+            year: payment.year,
+            status: payment.status, // Add status to display if payment is pending or completed
           };
         });
 
@@ -195,9 +214,14 @@ const ProfilePage = () => {
             <h3>Monthly Payment Status</h3>
             <div className="payment-status-grid">
               {paidMonths.length > 0 ? (
-                paidMonths.map(({ month, year }, index) => (
-                  <div key={index} className="payment-status-block paid">
-                    {months[month - 1]} {year} - Paid
+                paidMonths.map(({ month, year, status }, index) => (
+                  <div
+                    key={index}
+                    className={`payment-status-block ${
+                      status === "Paid" ? "paid" : "pending"
+                    }`}
+                  >
+                    {month} {year} - {status}
                   </div>
                 ))
               ) : (
