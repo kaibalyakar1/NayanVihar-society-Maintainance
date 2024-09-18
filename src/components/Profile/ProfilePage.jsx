@@ -59,7 +59,7 @@ const ProfilePage = () => {
     const fetchUserPayments = async () => {
       try {
         const token = localStorage.getItem("authToken");
-
+        console.log("Tokennnn:", token);
         if (!token) {
           Swal.fire({
             icon: "error",

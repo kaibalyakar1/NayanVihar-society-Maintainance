@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import "./payment.css";
@@ -12,6 +12,17 @@ const PaymentForm = () => {
   const [year, setYear] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const navigate = useNavigate(); // Initialize useNavigate
+
+  useEffect(() => {
+    // Get the current date
+    const today = new Date();
+    // Set the current month and year
+    const currentMonth = today.toLocaleString("default", { month: "long" }); // Full month name
+    const currentYear = today.getFullYear();
+
+    setMonth(currentMonth);
+    setYear(currentYear);
+  }, []); // Empty dependency array ensures this runs only once on mount
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -109,6 +120,7 @@ const PaymentForm = () => {
             onChange={(e) => setMonth(e.target.value)}
             required
             className="form-select"
+            disabled // Disable the select input since it's auto-filled
           >
             <option value="">Select a month</option>
             <option value="January">January</option>
@@ -135,6 +147,7 @@ const PaymentForm = () => {
             min="2000"
             max="2100"
             className="form-input"
+            disabled // Disable the input field since it's auto-filled
           />
         </div>
         <div className="form-group">

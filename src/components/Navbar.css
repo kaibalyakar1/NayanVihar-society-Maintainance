@@ -21,7 +21,12 @@ body {
   z-index: 1000;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
 }
-
+.btn-login-signup {
+  margin: -13px 10px -4px 8px;
+  width: max-content;
+  padding: 2px 10px;
+  color: white;
+}
 .container {
   display: flex;
   justify-content: space-between;
@@ -35,7 +40,11 @@ body {
 .logo {
   font-size: 1.8rem;
   font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-decoration: none;
   cursor: pointer;
+  color: white;
 }
 
 /* Navigation links */
@@ -43,6 +52,7 @@ body {
   display: flex;
   gap: 20px;
   list-style: none;
+  color: white;
 }
 
 .nav-links li {
@@ -51,6 +61,7 @@ body {
   text-transform: uppercase;
   font-weight: 500;
   cursor: pointer;
+  color: white;
   transition: color 0.3s ease;
 }
 
@@ -108,6 +119,14 @@ body {
 @media (max-width: 768px) {
   .nav-links {
     display: none;
+    color: black;
+    background: #000;
+  }
+  .nav-links li {
+    color: black;
+  }
+  .btn-login-signup {
+    margin: 5px auto;
   }
 
   .hamburger {
