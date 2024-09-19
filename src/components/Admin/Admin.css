@@ -1,4 +1,5 @@
 .users-table table {
+  margin-top: 60px;
   width: 100%;
   border-collapse: collapse;
 }
@@ -24,4 +25,8 @@
   font-size: 16px;
   border-radius: 5px;
   border: 1px solid #ccc;
+}
+.dashboard-header {
+  text-align: center;
+  padding-top: 10px;
 }
