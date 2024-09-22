@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-import "./auth.css";
 import { useNavigate } from "react-router-dom";
+import "./auth.css";
 
-const LoginSignup = () => {
+const LoginSignup = ({ onLogin, setLoading }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [otpSent, setOtpSent] = useState(false);
   const [isOtpVerified, setIsOtpVerified] = useState(false);
@@ -41,16 +41,12 @@ const LoginSignup = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleForgotPassword = () => {
     setIsForgotPassword(true);
-    setOtpSent(false);
-    setIsLogin(false);
+    resetFormState();
   };
 
   const sendForgotPasswordOtp = async () => {
@@ -187,8 +183,7 @@ const LoginSignup = () => {
           text: "You have successfully logged in.",
         }).then(() => {
           localStorage.setItem("authToken", response.data.token);
-          console.log("Token:", response.data.token);
-          localStorage.setItem("role", response.data.role);
+          onLogin(response.data.token); // Call onLogin here
           if (response.data.role === "admin") {
             navigate("/admin-dashboard");
           } else {
@@ -295,13 +290,18 @@ const LoginSignup = () => {
                   onChange={handleInputChange}
                   required
                 />
-                <button type="button" onClick={verifyForgotPasswordOtp}>
+                <button
+                  type="button"
+                  onClick={
+                    isForgotPassword ? verifyForgotPasswordOtp : () => {}
+                  }
+                >
                   Verify OTP
                 </button>
               </>
             )}
 
-            {otpSent && isOtpVerified && isForgotPassword && (
+            {isOtpVerified && isForgotPassword && (
               <>
                 <input
                   type="password"
@@ -317,6 +317,7 @@ const LoginSignup = () => {
               </>
             )}
           </form>
+          <button onClick={handleForgotPassword}>Forgot Password?</button>
         </div>
 
         <div className={`login ${isLogin ? "" : "hidden"}`}>
@@ -325,9 +326,9 @@ const LoginSignup = () => {
               Login
             </label>
             <input
-              type="tel"
+              type="text"
               name="phoneNumber"
-              placeholder="+91 Phone Number"
+              placeholder="Phone Number"
               value={formData.phoneNumber}
               onChange={handleInputChange}
               required
@@ -341,10 +342,8 @@ const LoginSignup = () => {
               required
             />
             <button type="submit">Login</button>
+            <button onClick={handleForgotPassword}>Forgot Password?</button>
           </form>
-          <button type="button" onClick={handleForgotPassword}>
-            Forgot Password?
-          </button>
         </div>
       </div>
     </div>

@@ -1,27 +1,46 @@
 /* Container for the slider */
 .slider-container {
   position: relative;
+  width: 100%;
   max-width: 100%;
   margin: 0 auto;
-  overflow: hidden; /* Hide overflow */
+  overflow: hidden;
+}
+
+/* Fixed overlay for title */
+.fixed-overlay {
+  position: absolute;
+  top: 20px;
+  width: 100%;
+  text-align: center;
+  z-index: 10;
+}
+
+.fixed-overlay h2 {
+  font-size: 24px;
+  color: rgb(0, 0, 0);
+  margin: 0;
+  padding: 0;
 }
 
 /* Slider styling */
 .slider {
   position: relative;
-  width: 100%;
   display: flex;
   align-items: center;
+  width: 100%;
+  overflow: hidden;
 }
 
-/* Slide styling */
 .slides {
   display: flex;
-  transition: transform 0.5s ease-in-out;
+  justify-content: flex-start;
+  width: 100%;
+  animation: scroll 15s linear infinite;
 }
 
 .slide {
-  min-width: 100%;
+  min-width: 25%; /* Adjust image size */
   box-sizing: border-box;
 }
 
@@ -29,42 +48,32 @@
   width: 100%;
   height: auto;
   display: block;
+  object-fit: cover;
 }
 
-/* Navigation buttons styling */
-.prev,
-.next {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  font-size: 24px;
-  z-index: 100;
+/* Smooth animation for sliding */
+@keyframes scroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }
 
-.prev {
-  left: 10px;
-}
-
-.next {
-  right: 10px;
+/* Pause effect with smooth delay */
+.slider.paused .slides {
+  animation-play-state: paused;
+  transition: animation-play-state 0.5s ease-in-out;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .prev,
-  .next {
-    padding: 5px;
-    font-size: 18px;
+  .slide {
+    min-width: 50%; /* Increase size on smaller screens */
   }
-  .slide img {
-    padding: 30px;
-    width: 100%;
-    height: auto;
-    display: block;
+
+  .fixed-overlay h2 {
+    font-size: 20px;
   }
 }

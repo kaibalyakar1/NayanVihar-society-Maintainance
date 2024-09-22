@@ -1,72 +1,142 @@
-/* Basic styling for the About section */
+/* Overall Section */
 .about-section {
-  padding: 60px 20px;
-  background-color: #f4f4f4; /* Light background for contrast */
-}
-
-/* Container for the section */
-.container {
-  display: flex;
-  justify-content: space-between; /* Align items to the edges */
-  align-items: flex-start; /* Align items to the start vertically */
-  max-width: 100%;
-
-  margin: 0 auto;
-}
-
-/* Text content alignment */
-.text-content {
-  flex: 1;
-  margin-right: 40px; /* Add space between text and image */
-}
-
-/* Heading style */
-.text-content h2 {
-  font-size: 36px;
-  color: #333;
-  margin-bottom: 20px;
-  font-weight: bold;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-/* Paragraph style */
-.text-content p {
-  font-size: 18px;
-  color: #555;
-  line-height: 1.6;
-  margin-bottom: 20px;
-  text-align: left; /* Align text to the left */
-}
-
-/* Image content alignment */
-.image-content {
-  flex: 1;
+  background: linear-gradient(145deg, #fdfdfd, #e0d5b4); /* Beige color */
+  padding: 100px 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  overflow: hidden;
 }
 
-/* Image styling */
-.image-content img {
-  max-width: 90%;
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  padding: 0 50px;
+  gap: 50px;
+  z-index: 2;
+  position: relative;
+}
+
+/* Text content */
+.text-content {
+  max-width: 50%;
+  font-size: 1.3rem;
+  color: #333;
+}
+
+.about-title {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #0d47a1;
+}
+
+.about-description {
+  line-height: 1.8;
+  margin-bottom: 20px;
+  text-align: justify;
+}
+
+/* Image Section with SVG Border */
+.image-content {
+  max-width: 45%;
+  position: relative;
+  border: 10px solid transparent;
+  border-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="%23000"><path d="M0 1v99c134.3 0 153.7-99 296-99H0Z" opacity=".5"></path><path d="M1000 4v86C833.3 90 833.3 3.6 666.7 3.6S500 90 333.3 90 166.7 4 0 4h1000Z" opacity=".5"></path><path d="M617 1v86C372 119 384 1 196 1h421Z" opacity=".5"></path><path d="M1000 0H0v52C62.5 28 125 4 250 4c250 0 250 96 500 96 125 0 187.5-24 250-48V0Z"></path></svg>')
+    10;
+  animation: borderAnimation 3s ease-in-out infinite;
+}
+
+.about-image {
+  width: 80%;
   height: auto;
-  border-radius: 8px; /* Rounded corners for the image */
+  border-radius: 15px;
+  transition: transform 0.6s ease, box-shadow 0.6s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
-/* Responsive Design */
+.image-content:hover .about-image {
+  transform: scale(1.07);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.2);
+}
+
+/* Parallax Background */
+.about-section::before,
+.about-section::after {
+  content: "";
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  z-index: 0;
+  animation: floatBg 12s infinite ease-in-out;
+}
+
+.about-section::before {
+  top: -200px;
+  left: -200px;
+}
+
+.about-section::after {
+  bottom: -200px;
+  right: -150px;
+}
+
+/* Border Animation for Image */
+@keyframes borderAnimation {
+  0%,
+  100% {
+    border-image-slice: 1;
+  }
+  50% {
+    border-image-slice: 10;
+  }
+}
+
+/* Fade-in Animations */
+@keyframes fadeInRight {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Parallax Background Animation */
+@keyframes floatBg {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(20px, 20px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+/* Media Queries */
 @media (max-width: 768px) {
   .container {
     flex-direction: column;
     text-align: center;
   }
 
-  .text-content {
-    margin-right: 0; /* Remove margin for mobile */
-    margin-bottom: 20px;
+  .text-content,
+  .image-content {
+    max-width: 100%;
   }
 
-  .image-content {
-    margin-top: 20px; /* Add margin-top to separate image from text */
+  .about-title {
+    font-size: 2.4rem;
   }
 }
